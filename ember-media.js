@@ -8,7 +8,12 @@
     var EmberMedia = Ember.Media = Ember.Namespace.create();
 
     EmberMedia.noConflict = function () {
-        Ember.Media = previousEmberMedia;
+        if (previousEmberMedia === undefined) {
+            delete Ember.Media;
+        } else {
+            Ember.Media = previousEmberMedia;
+        }
+        
         return this;
     };
 
