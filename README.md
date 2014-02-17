@@ -1,4 +1,5 @@
 ember-media
 ===========
 
-aka Embedia. Ember-idiomatic views for &lt;video> and &lt;audio>
+### Status
+Work-in-progress. Unusuable right now, expect things to change fast.
