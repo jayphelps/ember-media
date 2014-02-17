@@ -1,26 +1,22 @@
 (function (root, Ember) {
-    var get = Ember.get, set = Ember.set, on = Ember.on,
+    var previousEmberMedia = Ember.Media,
+        get = Ember.get, set = Ember.set, on = Ember.on,
         computed = Ember.computed,
         alias = computed.alias,
         arraySlice = Array.prototype.slice;
 
-    var Embedia = root.Embedia = Ember.Namespace.create();
+    var EmberMedia = Ember.Media = Ember.Namespace.create();
 
-    var View = Embedia.View = Ember.View.extend({
+    EmberMedia.noConflict = function () {
+        Ember.Media = previousEmberMedia;
+        return this;
+    };
 
-    });
-
-    var required = Ember.required;
-
-    Embedia.VideoInterfaceMixin = Ember.Mixin.create({
-        canPlayType: required(Function)
-    });
-
-    Embedia.computed = function () {
+    EmberMedia.computed = function () {
         return computed.appy(Ember, arguments);
     };
 
-    Embedia.computed.readOnlyElementAttributeGetter = function (attributeName) {
+    EmberMedia.computed.readOnlyElementAttributeGetter = function (attributeName) {
         return computed(function (defaultName) {
             attributeName = attributeName || defaultName;
             var el = get(this, 'element');
@@ -28,7 +24,7 @@
         }).property().volatile().readOnly();
     };
 
-    Embedia.computed.readOnlyElementPropertyGetter = function (propertyName) {
+    EmberMedia.computed.readOnlyElementPropertyGetter = function (propertyName) {
         return computed(function (defaultName) {
             propertyName = propertyName || defaultName;
             var el = get(this, 'element');
@@ -49,14 +45,22 @@
         return wrapper;
     }
 
-    Embedia.log = loggerMethod('log');
-    Embedia.warn = loggerMethod('warn');
-    Embedia.error = loggerMethod('error');
-    Embedia.info = loggerMethod('info');
-    Embedia.debug = loggerMethod('debug');
-    Embedia.assert = loggerMethod('assert');
+    EmberMedia.log = loggerMethod('log');
+    EmberMedia.warn = loggerMethod('warn');
+    EmberMedia.error = loggerMethod('error');
+    EmberMedia.info = loggerMethod('info');
+    EmberMedia.debug = loggerMethod('debug');
+    EmberMedia.assert = loggerMethod('assert');
 
-    Embedia.mediaEvents = {
+    var View = EmberMedia.View = Ember.View.extend();
+
+    var required = Ember.required;
+
+    EmberMedia.VideoInterfaceMixin = Ember.Mixin.create({
+        canPlayType: required(Function)
+    });
+
+    EmberMedia.mediaEvents = {
         abort: 'didAbortPlayback',
         canplay: 'canPlay',
         canplaythrough: 'canPlayThrough',
@@ -81,10 +85,10 @@
         waiting: 'didStartWaiting'
     };
 
-    var EmbediaComputed = Embedia.computed,
-        readOnlyElementAttributeGetter = EmbediaComputed.readOnlyElementAttributeGetter,
-        readOnlyElementPropertyGetter = EmbediaComputed.readOnlyElementPropertyGetter,
-        log = Embedia.log;
+    var EmberMediaComputed = EmberMedia.computed,
+        readOnlyElementAttributeGetter = EmberMediaComputed.readOnlyElementAttributeGetter,
+        readOnlyElementPropertyGetter = EmberMediaComputed.readOnlyElementPropertyGetter,
+        log = EmberMedia.log;
 
     function unshiftArguments(targetArgs) {
         var targetArgs = arraySlice.call(targetArgs),
@@ -102,13 +106,12 @@
                 alert(this._methodName);
                 callback.apply(this, unshiftArguments(arguments, element));
             } else {
-                throw new Error('asdf');
-                //throw new Ember.Error();
+                // Throw error
             }
         };
     }
 
-    Embedia.MediaMixin = Ember.Mixin.create({
+    EmberMedia.MediaMixin = Ember.Mixin.create({
         attributeBindings: [
             'width',
             'height',
@@ -125,7 +128,7 @@
             'defaultPlaybackRate'
         ],
 
-        _mediaEvents: Embedia.mediaEvents,
+        _mediaEvents: EmberMedia.mediaEvents,
         audioTracks: null,
         bufferedTimeRange: null,
         currentSrc: null,
@@ -192,12 +195,12 @@
         }
     });
         
-    Embedia.MediaMixin.reopen(generateMediaEventHandlers());
+    EmberMedia.MediaMixin.reopen(generateMediaEventHandlers());
 
-    function generateMediaEventHandlers(VideoView) {
-        var info = Embedia.info,
+    function generateMediaEventHandlers() {
+        var info = EmberMedia.info,
             inspect = Ember.inspect,
-            mediaEvents = Embedia.mediaEvents,
+            mediaEvents = EmberMedia.mediaEvents,
             mediaEventHandlers = {};
 
         for (var key in mediaEvents) {
@@ -215,20 +218,8 @@
         }
     }
 
-    Embedia.VideoView = View.extend(Embedia.MediaMixin, {
-        tagName: 'video',
-
-        didInsertElement: function () {
-            this._super();
-
-            window.videoView = this;
-        }
+    EmberMedia.VideoView = View.extend(EmberMedia.MediaMixin, {
+        tagName: 'video'
     });
 
 })(this, this.Ember);
-
-var App = Ember.Application.create();
-
-App.IndexView = Embedia.VideoView.extend({
-    src: 'http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4'
-});
