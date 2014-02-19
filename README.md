@@ -1,4 +1,4 @@
-ember-media
+Ember Media
 ===========
 
 ### Status

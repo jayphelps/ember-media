@@ -1,0 +1,31 @@
+{
+  "name": "ember-media",
+  "version": "0.0.1",
+  "description": "Ember-idiomatic views for <video> and <audio>",
+  "author": "Jay Phelps",
+  "license": "MIT",
+  "main": "ember-media.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jayphelps/ember-media.git"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.0",
+    "grunt-cli": "~0.1.8",
+    "connect": "~2.11.2",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt-contrib-connect": "~0.5.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-uglify": "~0.3.2",
+    "grunt-hang": "~0.1.2",
+    "grunt-contrib-qunit": "~0.3.0",
+    "grunt-contrib-jshint": "~0.7.2",
+    "grunt-es6-module-transpiler": "~0.6.0",
+    "load-grunt-config": "~0.7.0",
+    "load-grunt-tasks": "~0.3.0"
+  }
+}
