@@ -1,0 +1,8 @@
+{
+  "name": "ember-media",
+  "description": "Ember-idiomatic views for <video> and <audio>",
+  "homepage": "https://github.com/jayphelps/ember-media",
+  "authors": ["Jay Phelps"],
+  "version": "0.0.1-alpha"
+}
+
